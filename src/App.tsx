@@ -1,16 +1,16 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { useAppStore } from './store/useAppStore';
+import { useAppStore } from './store/useAppStore.ts';
 import { useEffect, useState } from 'react';
-import { supabase } from './lib/supabase';
+import { supabase } from './lib/supabase.ts';
 
 // Pages (to be created)
-import AuthPage from './pages/AuthPage';
-import DashboardPage from './pages/DashboardPage';
-import RecommendPage from './pages/RecommendPage';
-import DiseasePage from './pages/DiseasePage';
-import FieldPage from './pages/FieldPage';
-import ChatPage from './pages/ChatPage';
-import Layout from './layouts/Layout';
+import AuthPage from './pages/AuthPage.tsx';
+import DashboardPage from './pages/DashboardPage.tsx';
+import RecommendPage from './pages/RecommendPage.tsx';
+import DiseasePage from './pages/DiseasePage.tsx';
+import FieldPage from './pages/FieldPage.tsx';
+import ChatPage from './pages/ChatPage.tsx';
+import Layout from './layouts/Layout.tsx';
 
 function App() {
   const { user, setUser, isDemoMode } = useAppStore();

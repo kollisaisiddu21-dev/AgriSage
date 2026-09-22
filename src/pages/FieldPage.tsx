@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { useAppStore } from '../store/useAppStore';
-import { api } from '../lib/api';
+import { useAppStore } from '../store/useAppStore.ts';
+import { api } from '../lib/api.ts';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';

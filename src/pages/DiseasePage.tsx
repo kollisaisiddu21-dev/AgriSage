@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
-import { useAppStore } from '../store/useAppStore';
-import { api } from '../lib/api';
-import { supabase } from '../lib/supabase';
+import { useAppStore } from '../store/useAppStore.ts';
+import { api } from '../lib/api.ts';
+import { supabase } from '../lib/supabase.ts';
 import { Stethoscope, UploadCloud, Camera, Loader2, AlertCircle, X } from 'lucide-react';
 
 const DiseasePage = () => {

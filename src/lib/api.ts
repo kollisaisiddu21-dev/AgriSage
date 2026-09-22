@@ -30,8 +30,8 @@ export const api = {
     return response.data;
   },
   
-  getAdvisory: async (data: { ml_results: any; language: string }) => {
-    const response = await apiClient.post('/get-advisory', data);
+  getAdvisory: async (data: { ml_results: any; language: string; user_query: string }) => {
+    const response = await apiClient.post('/generate-advisory', data);
     return response.data;
   }
 };

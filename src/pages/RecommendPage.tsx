@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { useAppStore } from '../store/useAppStore';
-import { getCurrentPosition, fetchWeather, fetchSoilData } from '../lib/external';
-import { api } from '../lib/api';
-import { supabase } from '../lib/supabase';
+import { useAppStore } from '../store/useAppStore.ts';
+import { getCurrentPosition, fetchWeather, fetchSoilData } from '../lib/external.ts';
+import { api } from '../lib/api.ts';
+import { supabase } from '../lib/supabase.ts';
 import { MapPin, Loader2, Leaf, AlertCircle } from 'lucide-react';
 
 const RecommendPage = () => {

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
-import { useAppStore } from '../store/useAppStore';
-import { api } from '../lib/api';
-import { supabase } from '../lib/supabase';
+import { useAppStore } from '../store/useAppStore.ts';
+import { api } from '../lib/api.ts';
+import { supabase } from '../lib/supabase.ts';
 import { MessageCircle, Send, Mic, MicOff, Languages, Bot, User, Loader2 } from 'lucide-react';
 
 interface ChatMessage {
@@ -89,9 +89,9 @@ const ChatPage = () => {
       // In a real chatbot, we might pass the full chat history. 
       // The instructions say: "The chat must utilize the /get-advisory API. Pass the user's current metrics in the ml_results payload"
       const payload = {
-        ml_results: mlResults, // From Zustand store (last crop, last disease, etc)
+        ml_results: mlResults, 
         language: language,
-        // user_query: input // (Assuming backend handles this if we wanted full conversational AI, but /get-advisory schema just asks for ml_results and language in the prompt. If the backend actually requires it, we add it. We will just pass it standard.)
+        user_query: input
       };
 
       const res = await api.getAdvisory(payload);

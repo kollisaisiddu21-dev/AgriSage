@@ -1,6 +1,6 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
-import { useAppStore } from '../store/useAppStore';
-import { supabase } from '../lib/supabase';
+import { useAppStore } from '../store/useAppStore.ts';
+import { supabase } from '../lib/supabase.ts';
 import { Sprout, LogOut, LayoutDashboard, Map, Stethoscope, MessageCircle } from 'lucide-react';
 
 const Layout = () => {

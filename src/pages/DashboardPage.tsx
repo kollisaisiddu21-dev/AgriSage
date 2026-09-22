@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAppStore } from '../store/useAppStore';
-import { getCurrentPosition, fetchWeather } from '../lib/external';
-import { supabase } from '../lib/supabase';
+import { useAppStore } from '../store/useAppStore.ts';
+import { getCurrentPosition, fetchWeather } from '../lib/external.ts';
+import { supabase } from '../lib/supabase.ts';
 import { Cloud, Droplets, ThermometerSun, MapPin, Loader2, History } from 'lucide-react';
 
 const DashboardPage = () => {
@@ -30,7 +30,7 @@ const DashboardPage = () => {
     if (!weather) {
       loadWeather();
     }
-    
+
     // Load history
     const loadHistory = async () => {
       if (user) {
@@ -41,7 +41,7 @@ const DashboardPage = () => {
             .eq('user_id', user.id)
             .order('created_at', { ascending: false })
             .limit(5);
-          
+
           if (!error && data) {
             setHistory(data);
           }
@@ -50,7 +50,7 @@ const DashboardPage = () => {
         }
       }
     };
-    
+
     loadHistory();
   }, [user, weather, setLocation, setWeather, updateMLResults]);
 
@@ -58,7 +58,7 @@ const DashboardPage = () => {
     <div className="space-y-6 max-w-6xl mx-auto">
       <header className="flex flex-col gap-2 mb-8">
         <h1 className="text-3xl font-bold text-primary-900">
-          Welcome back, {isDemoMode ? 'Demo Farmer' : user?.email?.split('@')[0] || 'Farmer'}
+          {isDemoMode ? 'Welcome to AgriSage' : `Hello ${user?.user_metadata?.full_name || ''}, Welcome to AgriSage`}
         </h1>
         <p className="text-earth-800">Here is your farm's overview for today.</p>
       </header>
@@ -68,7 +68,7 @@ const DashboardPage = () => {
         <div className="flex items-center gap-2 mb-4 text-primary-800 font-semibold text-lg">
           <MapPin /> Local Conditions
         </div>
-        
+
         {loadingWeather ? (
           <div className="flex items-center justify-center p-8">
             <Loader2 className="animate-spin text-primary-500" size={32} />
@@ -82,13 +82,13 @@ const DashboardPage = () => {
               <div className="text-3xl font-bold text-primary-900">{weather.temperature}°C</div>
               <div className="text-earth-800 font-medium">Temperature</div>
             </div>
-            
+
             <div className="bg-earth-50 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-earth-100">
               <Droplets size={40} className="text-blue-500" />
               <div className="text-3xl font-bold text-primary-900">{weather.humidity}%</div>
               <div className="text-earth-800 font-medium">Humidity</div>
             </div>
-            
+
             <div className="bg-earth-50 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-earth-100">
               <Cloud size={40} className="text-gray-500" />
               <div className="text-3xl font-bold text-primary-900">{weather.rainfall} mm</div>
@@ -103,7 +103,7 @@ const DashboardPage = () => {
         <div className="flex items-center gap-2 mb-4 text-primary-800 font-semibold text-lg">
           <History /> Recent Activity
         </div>
-        
+
         {history.length > 0 ? (
           <div className="space-y-3">
             {history.map((item, i) => (
