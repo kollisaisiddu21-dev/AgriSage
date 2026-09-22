@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase.ts';
 import { Cloud, Droplets, ThermometerSun, MapPin, Loader2, History } from 'lucide-react';
 
 const DashboardPage = () => {
-  const { user, isDemoMode, location, setLocation, weather, setWeather, updateMLResults } = useAppStore();
+  const { user, isDemoMode, setLocation, weather, setWeather, updateMLResults } = useAppStore();
   const [loadingWeather, setLoadingWeather] = useState(false);
   const [weatherError, setWeatherError] = useState<string | null>(null);
   const [history, setHistory] = useState<any[]>([]);
