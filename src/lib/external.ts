@@ -21,10 +21,10 @@ export const getCurrentPosition = (): Promise<{ lat: number; lon: number }> => {
   });
 };
 
-// Fetch real-time weather from Open-Meteo and seasonal rainfall from NASA POWER
+// Fetch real-time weather, forecast from Open-Meteo, and seasonal climate from NASA POWER
 export const fetchWeather = async (lat: number, lon: number) => {
-  const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m`;
-  const nasaPowerUrl = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=PRECTOTCORR&community=AG&longitude=${lon}&latitude=${lat}&format=JSON`;
+  const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation&daily=temperature_2m_max,temperature_2m_min,precipitation_sum&timezone=auto`;
+  const nasaPowerUrl = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=PRECTOTCORR,T2M&community=AG&longitude=${lon}&latitude=${lat}&format=JSON`;
   
   try {
     const [omResponse, nasaResponse] = await Promise.all([
@@ -33,23 +33,47 @@ export const fetchWeather = async (lat: number, lon: number) => {
     ]);
 
     const current = omResponse.data.current;
+    const daily = omResponse.data.daily;
     
-    // Default fallback rainfall if NASA POWER fails
+    // Default fallback values if NASA POWER fails
     let seasonalRainfall = 100; 
+    let seasonalTemperature = current.temperature_2m; // fallback to current if seasonal fails
 
     if (nasaResponse && nasaResponse.data) {
       const annMmPerDay = nasaResponse.data.properties?.parameter?.PRECTOTCORR?.ANN;
+      const annTemp = nasaResponse.data.properties?.parameter?.T2M?.ANN;
+      
       if (annMmPerDay) {
         // Kaggle ML dataset expects seasonal rainfall (approx 3 months). 
         // We multiply mm/day by 90 days to scale it to the model's 50-300mm range.
         seasonalRainfall = Math.round(annMmPerDay * 90);
       }
+      if (annTemp) {
+        seasonalTemperature = Math.round(annTemp * 10) / 10;
+      }
     }
 
     return {
-      temperature: current.temperature_2m,
+      // Legacy flat properties for RecommendPage (needs seasonal temp/rainfall for crop model)
+      temperature: seasonalTemperature,
       humidity: current.relative_humidity_2m,
       rainfall: seasonalRainfall,
+      
+      // Rich structured data for AI Context (Irrigation, Forecasting)
+      current: {
+        temperature: current.temperature_2m,
+        humidity: current.relative_humidity_2m,
+        precipitation: current.precipitation || 0
+      },
+      forecast: {
+        daily_max_temp: daily?.temperature_2m_max || [],
+        daily_min_temp: daily?.temperature_2m_min || [],
+        daily_precipitation: daily?.precipitation_sum || []
+      },
+      seasonal: {
+        temperature: seasonalTemperature,
+        rainfall: seasonalRainfall
+      }
     };
   } catch (error) {
     console.error("Failed to fetch weather/climate data:", error);

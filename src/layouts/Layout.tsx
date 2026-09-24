@@ -1,22 +1,30 @@
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore.ts';
 import { supabase } from '../lib/supabase.ts';
-import { Sprout, LogOut, LayoutDashboard, Map, Stethoscope, MessageCircle } from 'lucide-react';
+import { Sprout, LogOut, LayoutDashboard, Satellite, Stethoscope, MessageCircle, Loader2 } from 'lucide-react';
 
 const Layout = () => {
-  const { setDemoMode, isDemoMode, user } = useAppStore();
+  const { setDemoMode, user, testStates, setUser } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
 
   const isActive = (path: string) => location.pathname === path;
 
   const handleSignOut = async () => {
-    if (isDemoMode) {
-      setDemoMode(false);
-    } else if (user) {
-      await supabase.auth.signOut();
+    // 1. Clear session storage completely
+    sessionStorage.clear();
+
+    // 2. Optimistically update local state so the router immediately knows we are logged out
+    setDemoMode(false);
+    setUser(null);
+
+    // 3. Fire the backend signout in the background if the user was logged in natively
+    if (user) {
+      supabase.auth.signOut().catch(e => console.warn("Sign out error", e));
     }
-    navigate('/auth');
+
+    // 4. Navigate to the login page immediately
+    navigate('/auth', { replace: true });
   };
 
   return (
@@ -28,33 +36,37 @@ const Layout = () => {
             <Sprout size={32} />
             AgriSage
           </div>
-          <button 
+          <button
             className="md:hidden p-2 bg-primary-800 rounded-lg"
             onClick={handleSignOut}
           >
             <LogOut size={20} />
           </button>
         </div>
-        
+
         <div className="hidden md:flex flex-col gap-2 p-4 flex-grow">
           <Link to="/" className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] ${isActive('/') ? 'bg-primary-700 text-white font-bold shadow-lg' : 'hover:bg-primary-800'}`}>
             <LayoutDashboard size={20} /> Dashboard
           </Link>
           <Link to="/recommend" className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] ${isActive('/recommend') ? 'bg-primary-700 text-white font-bold shadow-lg' : 'hover:bg-primary-800'}`}>
             <Sprout size={20} /> Crop Advisor
+            {testStates['recommend']?.predicting && <Loader2 size={14} className="animate-spin ml-auto text-accent-300" />}
           </Link>
           <Link to="/disease" className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] ${isActive('/disease') ? 'bg-primary-700 text-white font-bold shadow-lg' : 'hover:bg-primary-800'}`}>
             <Stethoscope size={20} /> Disease Check
+            {testStates['disease']?.analyzing && <Loader2 size={14} className="animate-spin ml-auto text-accent-300" />}
           </Link>
           <Link to="/field" className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] ${isActive('/field') ? 'bg-primary-700 text-white font-bold shadow-lg' : 'hover:bg-primary-800'}`}>
-            <Map size={20} /> Field Monitor
+            <Satellite size={20} /> Field Monitor
+            {testStates['field']?.analyzing && <Loader2 size={14} className="animate-spin ml-auto text-accent-300" />}
           </Link>
           <Link to="/chat" className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 hover:scale-[1.02] ${isActive('/chat') ? 'bg-primary-700 text-white font-bold shadow-lg' : 'hover:bg-primary-800'}`}>
             <MessageCircle size={20} /> Agri Chat
+            {testStates['chat']?.loading && <Loader2 size={14} className="animate-spin ml-auto text-accent-300" />}
           </Link>
 
           <div className="mt-auto">
-            <button 
+            <button
               onClick={handleSignOut}
               className="flex items-center gap-3 p-3 w-full rounded-xl hover:bg-primary-800 transition-all duration-300 hover:scale-[1.02] text-left"
             >
@@ -68,7 +80,7 @@ const Layout = () => {
           <Link to="/" className={`p-2 rounded-xl transition-colors ${isActive('/') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><LayoutDashboard size={24} /></Link>
           <Link to="/recommend" className={`p-2 rounded-xl transition-colors ${isActive('/recommend') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Sprout size={24} /></Link>
           <Link to="/disease" className={`p-2 rounded-xl transition-colors ${isActive('/disease') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Stethoscope size={24} /></Link>
-          <Link to="/field" className={`p-2 rounded-xl transition-colors ${isActive('/field') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Map size={24} /></Link>
+          <Link to="/field" className={`p-2 rounded-xl transition-colors ${isActive('/field') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Satellite size={24} /></Link>
           <Link to="/chat" className={`p-2 rounded-xl transition-colors ${isActive('/chat') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><MessageCircle size={24} /></Link>
         </div>
       </nav>

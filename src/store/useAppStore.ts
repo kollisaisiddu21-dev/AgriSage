@@ -10,6 +10,20 @@ interface Weather {
   temperature: number;
   humidity: number;
   rainfall: number;
+  current: {
+    temperature: number;
+    humidity: number;
+    precipitation: number;
+  };
+  forecast: {
+    daily_max_temp: number[];
+    daily_min_temp: number[];
+    daily_precipitation: number[];
+  };
+  seasonal: {
+    temperature: number;
+    rainfall: number;
+  };
 }
 
 interface Soil {
@@ -39,6 +53,7 @@ interface AppState {
   weather: Weather | null;
   soil: Soil | null;
   mlResults: MLResults;
+  testStates: Record<string, any>;
   
   setUser: (user: User | null) => void;
   setDemoMode: (isDemo: boolean) => void;
@@ -46,22 +61,41 @@ interface AppState {
   setWeather: (weather: Weather | null) => void;
   setSoil: (soil: Soil | null) => void;
   updateMLResults: (results: Partial<MLResults>) => void;
+  setTestState: (pageId: string, state: any) => void;
 }
 
-export const useAppStore = create<AppState>((set) => ({
-  user: null,
-  isDemoMode: false,
-  location: null,
-  weather: null,
-  soil: null,
-  mlResults: {},
+import { persist } from 'zustand/middleware';
 
-  setUser: (user) => set({ user }),
-  setDemoMode: (isDemoMode) => set({ isDemoMode }),
-  setLocation: (location) => set({ location }),
-  setWeather: (weather) => set({ weather }),
-  setSoil: (soil) => set({ soil }),
-  updateMLResults: (results) => set((state) => ({ 
-    mlResults: { ...state.mlResults, ...results } 
-  })),
-}));
+export const useAppStore = create<AppState>()(
+  persist(
+    (set) => ({
+      user: null,
+      isDemoMode: false,
+      location: null,
+      weather: null,
+      soil: null,
+      mlResults: {},
+
+      testStates: {},
+
+      setUser: (user) => set({ user }),
+      setDemoMode: (isDemoMode) => set({ isDemoMode }),
+      setLocation: (location) => set({ location }),
+      setWeather: (weather) => set({ weather }),
+      setSoil: (soil) => set({ soil }),
+      updateMLResults: (results) => set((state) => ({ 
+        mlResults: { ...state.mlResults, ...results } 
+      })),
+      setTestState: (pageId, newState) => set((state) => ({
+        testStates: {
+          ...state.testStates,
+          [pageId]: { ...(state.testStates[pageId] || {}), ...newState }
+        }
+      })),
+    }),
+    {
+      name: 'agrisage-storage',
+      partialize: (state) => ({ isDemoMode: state.isDemoMode }),
+    }
+  )
+);

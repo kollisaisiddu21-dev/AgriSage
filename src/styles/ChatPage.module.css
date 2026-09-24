@@ -9,6 +9,10 @@
   @apply hidden md:flex flex-col w-64 lg:w-72 bg-white rounded-2xl border border-earth-100 overflow-hidden shadow-sm shrink-0;
 }
 
+.sidebarMobileVisible {
+  @apply flex absolute z-50 h-[calc(100vh-80px)] w-[85%] max-w-sm left-4 top-4 shadow-2xl;
+}
+
 .newChatBtn {
   @apply flex items-center justify-center gap-2 w-full py-3 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-xl transition-colors border border-primary-200;
 }
@@ -83,7 +87,7 @@
 }
 
 .bubbleAssistant {
-  @apply bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm;
+  @apply bg-gradient-to-br from-white to-primary-50/30 border border-primary-100 text-earth-900 rounded-tl-sm shadow-md;
 }
 
 .loadingBubble {

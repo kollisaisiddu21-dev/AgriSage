@@ -139,3 +139,20 @@
 .strongText {
   @apply text-primary-800;
 }
+
+@keyframes scanline {
+  0% { top: 0%; opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
+
+.scanLine {
+  @apply absolute left-0 w-full h-1 bg-primary-500 z-10;
+  box-shadow: 0 0 15px 3px rgba(34, 197, 94, 0.7);
+  animation: scanline 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.scanningOverlay {
+  @apply absolute inset-0 bg-primary-500/10 rounded-xl overflow-hidden pointer-events-none border-2 border-primary-400/50;
+}
