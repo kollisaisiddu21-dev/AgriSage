@@ -18,10 +18,16 @@ function App() {
 
   useEffect(() => {
     // Check active sessions and sets the user
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
-    });
+    supabase.auth.getSession()
+      .then(({ data: { session } }) => {
+        setUser(session?.user ?? null);
+      })
+      .catch((err) => {
+        console.warn("Supabase session error:", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
 
     // Listen for changes on auth state (logged in, signed out, etc.)
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
@@ -53,6 +59,9 @@ function App() {
           <Route path="/field" element={<FieldPage />} />
           <Route path="/chat" element={<ChatPage />} />
         </Route>
+        
+        {/* Catch-all route to prevent blank screens on invalid URLs */}
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   );

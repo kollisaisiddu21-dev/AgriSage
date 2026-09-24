@@ -1,0 +1,89 @@
+@reference "../index.css";
+
+.pageContainer {
+  @apply space-y-6 max-w-6xl mx-auto animate-fade-in-up;
+}
+
+.header {
+  @apply flex flex-col gap-2 mb-8;
+}
+
+.title {
+  @apply text-3xl font-bold text-primary-900;
+}
+
+.subtitle {
+  @apply text-earth-800;
+}
+
+.section {
+  @apply bg-white/70 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/40 transition-all duration-300;
+}
+
+.sectionTitle {
+  @apply flex items-center gap-2 mb-4 text-primary-800 font-semibold text-lg;
+}
+
+.loaderContainer {
+  @apply flex items-center justify-center p-8;
+}
+
+.spinner {
+  @apply animate-spin text-primary-500;
+}
+
+.errorBox {
+  @apply text-red-500 bg-red-50 p-4 rounded-xl;
+}
+
+.weatherGrid {
+  @apply grid grid-cols-1 md:grid-cols-3 gap-4;
+}
+
+.weatherCard {
+  @apply bg-white/40 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-white/40 shadow-sm hover:-translate-y-1 hover:shadow-lg hover:bg-white/60 transition-all duration-300;
+}
+
+.weatherIconTemp {
+  @apply text-accent-500;
+}
+
+.weatherIconHum {
+  @apply text-blue-500;
+}
+
+.weatherIconRain {
+  @apply text-gray-500;
+}
+
+.weatherValue {
+  @apply text-3xl font-bold text-primary-900;
+}
+
+.weatherLabel {
+  @apply text-earth-800 font-medium;
+}
+
+.historyList {
+  @apply space-y-3;
+}
+
+.historyItem {
+  @apply p-4 border border-white/40 bg-white/40 rounded-xl flex justify-between items-center hover:bg-white/60 hover:translate-x-1 hover:shadow-md transition-all duration-300 shadow-sm;
+}
+
+.historyItemType {
+  @apply font-semibold text-primary-900;
+}
+
+.historyItemResult {
+  @apply text-sm text-earth-800;
+}
+
+.historyItemDate {
+  @apply text-xs text-earth-800;
+}
+
+.emptyHistory {
+  @apply text-center p-8 bg-white/40 rounded-xl border border-white/40 text-earth-800 backdrop-blur-sm;
+}

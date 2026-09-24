@@ -5,16 +5,21 @@ import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Map as MapIcon, Loader2, AlertCircle } from 'lucide-react';
+import styles from '../styles/FieldPage.module.css';
 
 // Fix Leaflet's default icon issue with bundlers
 import iconUrl from 'leaflet/dist/images/marker-icon.png';
 import iconRetinaUrl from 'leaflet/dist/images/marker-icon-2x.png';
 import shadowUrl from 'leaflet/dist/images/marker-shadow.png';
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl,
+const customIcon = new L.Icon({
   iconUrl,
+  iconRetinaUrl,
   shadowUrl,
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41]
 });
 
 const LocationMarker = ({ position, setPosition }: any) => {
@@ -25,7 +30,7 @@ const LocationMarker = ({ position, setPosition }: any) => {
   });
 
   return position === null ? null : (
-    <Marker position={position}></Marker>
+    <Marker position={position} icon={customIcon}></Marker>
   );
 };
 
@@ -76,28 +81,28 @@ const FieldPage = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6 flex flex-col h-full">
-      <header className="mb-2 shrink-0">
-        <h1 className="text-3xl font-bold text-primary-900 flex items-center gap-2">
-          <MapIcon className="text-primary-600" /> Field Monitor
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>
+          <MapIcon className={styles.titleIcon} /> Field Monitor
         </h1>
-        <p className="text-earth-800 mt-2">Drop a pin on your field to analyze satellite NDVI and vegetation health.</p>
+        <p className={styles.subtitle}>Drop a pin on your field to analyze satellite NDVI and vegetation health.</p>
       </header>
 
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl flex gap-2 items-center shrink-0">
+        <div className={styles.errorBox}>
           <AlertCircle size={20} /> {error}
         </div>
       )}
 
-      <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-[500px]">
+      <div className={styles.mainSection}>
         {/* Map Section */}
-        <div className="bg-white rounded-2xl shadow-sm border border-earth-100 overflow-hidden flex-1 relative h-96 lg:h-auto">
+        <div className={styles.mapContainer}>
           <MapContainer 
             center={position || [15.3647, 75.1240]} 
             zoom={13} 
             scrollWheelZoom={true}
-            className="w-full h-full"
+            className={styles.mapElement}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OSM</a>'
@@ -107,11 +112,11 @@ const FieldPage = () => {
             <LocationMarker position={position} setPosition={setPosition} />
           </MapContainer>
           
-          <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-[400]">
+          <div className={styles.analyzeBtnWrapper}>
             <button 
               onClick={handleAnalyze}
               disabled={analyzing || !position}
-              className="bg-primary-600 hover:bg-primary-700 disabled:bg-earth-200 disabled:text-earth-500 text-white font-bold py-3 px-8 rounded-full shadow-xl transition-transform active:scale-95 flex items-center gap-2"
+              className={styles.analyzeBtn}
             >
               {analyzing ? <Loader2 className="animate-spin" size={20} /> : 'Analyze Selected Area'}
             </button>
@@ -120,33 +125,42 @@ const FieldPage = () => {
 
         {/* Results Section */}
         {result && (
-          <div className="w-full lg:w-80 bg-white p-6 rounded-2xl shadow-sm border border-earth-100 shrink-0 flex flex-col justify-center animate-in slide-in-from-right">
-            <h2 className="text-xl font-bold text-primary-900 mb-6 border-b border-earth-100 pb-2">Analysis Results</h2>
+          <div className={styles.resultContainer}>
+            <h2 className={styles.resultTitle}>Analysis Results</h2>
             
-            <div className="space-y-6">
+            <div className={styles.resultBody}>
               <div>
-                <div className="text-sm text-earth-500 mb-1">Coordinates</div>
-                <div className="font-mono text-sm bg-earth-50 p-2 rounded border border-earth-100">
+                <div className={styles.resultLabel}>Coordinates</div>
+                <div className={styles.coordsValue}>
                   {result.latitude.toFixed(4)}, {result.longitude.toFixed(4)}
                 </div>
               </div>
 
               <div>
-                <div className="text-sm text-earth-500 mb-1">NDVI Score</div>
-                <div className="flex items-end gap-2">
-                  <div className={`text-4xl font-bold ${result.ndvi_score > 0.4 ? 'text-primary-600' : 'text-accent-500'}`}>
+                <div className={styles.resultLabel}>NDVI Score</div>
+                <div className={styles.ndviWrapper}>
+                  <div className={`${styles.ndviValue} ${result.ndvi_score > 0.4 ? styles.ndviValueGood : styles.ndviValueBad}` }>
                     {result.ndvi_score}
                   </div>
-                  <div className="text-sm text-earth-500 mb-1">(-1 to +1)</div>
+                  <div className={styles.resultLabel}>(-1 to +1)</div>
                 </div>
               </div>
 
-              <div className="bg-primary-50 p-4 rounded-xl border border-primary-100">
-                <div className="text-sm font-semibold text-primary-800 mb-1">Vegetation Status:</div>
-                <div className="text-primary-900">
+              <div className={styles.statusWrapper}>
+                <div className={styles.statusLabel}>Vegetation Status:</div>
+                <div className={styles.statusValue}>
                   {result.vegetation_status}
                 </div>
               </div>
+
+              {result.llm_analysis && (
+                <div style={{ marginTop: '1.5rem', padding: '1rem', backgroundColor: 'var(--card-bg)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+                  <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', color: 'var(--primary)' }}>AI Agronomist Insight:</div>
+                  <div style={{ color: 'var(--text-secondary)', lineHeight: '1.5' }}>
+                    {result.llm_analysis}
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         )}

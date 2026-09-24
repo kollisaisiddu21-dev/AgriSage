@@ -3,6 +3,7 @@ import { useAppStore } from '../store/useAppStore.ts';
 import { api } from '../lib/api.ts';
 import { supabase } from '../lib/supabase.ts';
 import { MessageCircle, Send, Mic, MicOff, Languages, Bot, User, Loader2 } from 'lucide-react';
+import styles from '../styles/ChatPage.module.css';
 
 interface ChatMessage {
   id: string;
@@ -88,11 +89,14 @@ const ChatPage = () => {
     try {
       // In a real chatbot, we might pass the full chat history. 
       // The instructions say: "The chat must utilize the /get-advisory API. Pass the user's current metrics in the ml_results payload"
-      const payload = {
-        ml_results: mlResults, 
-        language: language,
-        user_query: input
-      };
+        const payload = {
+          ml_results: mlResults, 
+          language: language,
+          user_query: input,
+          chat_history: messages
+            .filter(m => m.id !== 'welcome')
+            .map(m => ({ role: m.role, content: m.content }))
+        };
 
       const res = await api.getAdvisory(payload);
 
@@ -134,18 +138,18 @@ const ChatPage = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto h-[calc(100vh-120px)] md:h-[calc(100vh-64px)] flex flex-col space-y-4">
-      <header className="flex justify-between items-center shrink-0">
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
         <div>
-          <h1 className="text-3xl font-bold text-primary-900 flex items-center gap-2">
-            <MessageCircle className="text-primary-600" /> AgriSage Chat
+          <h1 className={styles.title}>
+            <MessageCircle className={styles.titleIcon} /> AgriSage Chat
           </h1>
-          <p className="text-earth-800 mt-1">Talk to your AI Agronomist.</p>
+          <p className={styles.subtitle}>Talk to your AI Agronomist.</p>
         </div>
         
         <button 
           onClick={() => setLanguage(lang => lang === 'English' ? 'Kannada' : 'English')}
-          className="flex items-center gap-2 bg-earth-100 hover:bg-earth-200 text-earth-900 px-4 py-2 rounded-xl transition-colors"
+          className={styles.langButton}
         >
           <Languages size={18} />
           {language}
@@ -153,28 +157,24 @@ const ChatPage = () => {
       </header>
 
       {/* Chat Messages */}
-      <div className="flex-1 bg-white border border-earth-100 rounded-2xl p-4 overflow-y-auto shadow-sm flex flex-col gap-4">
+      <div className={styles.chatContainer}>
         {messages.map((msg) => (
-          <div key={msg.id} className={`flex gap-3 max-w-[85%] ${msg.role === 'user' ? 'self-end flex-row-reverse' : 'self-start'}`}>
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${msg.role === 'user' ? 'bg-primary-600 text-white' : 'bg-accent-100 text-accent-700'}`}>
+          <div key={msg.id} className={`${styles.msgWrapperBase} ${msg.role === 'user' ? styles.msgWrapperUser : styles.msgWrapperAssistant}` }>
+            <div className={`${styles.avatarBase} ${msg.role === 'user' ? styles.avatarUser : styles.avatarAssistant}` }>
               {msg.role === 'user' ? <User size={16} /> : <Bot size={16} />}
             </div>
-            <div className={`p-4 rounded-2xl text-[15px] ${
-              msg.role === 'user' 
-                ? 'bg-primary-600 text-white rounded-tr-sm' 
-                : 'bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm'
-            }`}>
+            <div className={`${styles.bubbleBase} ${msg.role === 'user' ? styles.bubbleUser : styles.bubbleAssistant}`}>
               {msg.content}
             </div>
           </div>
         ))}
         {loading && (
-          <div className="flex gap-3 max-w-[85%] self-start">
-            <div className="w-8 h-8 rounded-full flex items-center justify-center shrink-0 bg-accent-100 text-accent-700">
+          <div className={`${styles.msgWrapperBase} ${styles.msgWrapperAssistant}` }>
+            <div className={`${styles.avatarBase} ${styles.avatarAssistant}` }>
               <Bot size={16} />
             </div>
-            <div className="p-4 rounded-2xl bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm flex items-center gap-2">
-              <Loader2 className="animate-spin text-primary-500" size={16} /> Thinking...
+            <div className={styles.loadingBubble}>
+              <Loader2 className={styles.loadingSpinner} size={16} /> Thinking...
             </div>
           </div>
         )}
@@ -182,21 +182,19 @@ const ChatPage = () => {
       </div>
 
       {/* Input Area */}
-      <div className="flex gap-2 shrink-0">
-        <div className="flex-1 relative">
+      <div className={styles.inputArea}>
+        <div className={styles.inputWrapper}>
           <input 
             type="text" 
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
             placeholder={language === 'English' ? "Ask me anything about your farm..." : "ನಿಮ್ಮ ಕೃಷಿ ಬಗ್ಗೆ ಏನನ್ನಾದರೂ ಕೇಳಿ..."}
-            className="w-full pl-4 pr-12 py-4 bg-white border border-earth-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 shadow-sm"
+            className={styles.textInput}
           />
           <button 
             onClick={toggleListening}
-            className={`absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full transition-colors ${
-              isListening ? 'bg-red-100 text-red-600 animate-pulse' : 'text-earth-500 hover:bg-earth-100 hover:text-earth-900'
-            }`}
+            className={`${styles.micBtnBase} ${isListening ? styles.micBtnListening : styles.micBtnIdle}`}
           >
             {isListening ? <MicOff size={20} /> : <Mic size={20} />}
           </button>
@@ -204,7 +202,7 @@ const ChatPage = () => {
         <button 
           onClick={handleSendMessage}
           disabled={!input.trim() || loading}
-          className="bg-primary-600 hover:bg-primary-700 disabled:bg-earth-200 disabled:text-earth-500 text-white p-4 rounded-2xl transition-colors shadow-sm"
+          className={styles.sendBtn}
         >
           <Send size={24} />
         </button>

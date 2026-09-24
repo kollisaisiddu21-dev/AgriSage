@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const NGROK_BACKEND_URL = 'https://radiated-molasses-ream.ngrok-free.dev';
+const NGROK_BACKEND_URL = 'http://127.0.0.1:8000';
 
 export const apiClient = axios.create({
   baseURL: NGROK_BACKEND_URL,
@@ -30,8 +30,14 @@ export const api = {
     return response.data;
   },
   
-  getAdvisory: async (data: { ml_results: any; language: string; user_query: string }) => {
+  getAdvisory: async (data: { ml_results: any; language: string; user_query?: string; chat_history?: any[] }) => {
     const response = await apiClient.post('/generate-advisory', data);
+    return response.data;
+  },
+  
+  getQueftsSupply: async (data: { lat: number; lon: number }) => {
+    // Calling the new backend endpoint for QUEFTS native nutrient supply estimation
+    const response = await apiClient.post('/soil/quefts-supply', data);
     return response.data;
   }
 };

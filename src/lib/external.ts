@@ -21,21 +21,38 @@ export const getCurrentPosition = (): Promise<{ lat: number; lon: number }> => {
   });
 };
 
-// Fetch real-time weather from Open-Meteo
+// Fetch real-time weather from Open-Meteo and seasonal rainfall from NASA POWER
 export const fetchWeather = async (lat: number, lon: number) => {
-  // Using Open-Meteo API to get temperature, relative humidity, and precipitation/rainfall
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,precipitation`;
+  const openMeteoUrl = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m`;
+  const nasaPowerUrl = `https://power.larc.nasa.gov/api/temporal/climatology/point?parameters=PRECTOTCORR&community=AG&longitude=${lon}&latitude=${lat}&format=JSON`;
   
   try {
-    const response = await axios.get(url);
-    const current = response.data.current;
+    const [omResponse, nasaResponse] = await Promise.all([
+      axios.get(openMeteoUrl),
+      axios.get(nasaPowerUrl).catch(() => null) // Fallback if NASA fails
+    ]);
+
+    const current = omResponse.data.current;
+    
+    // Default fallback rainfall if NASA POWER fails
+    let seasonalRainfall = 100; 
+
+    if (nasaResponse && nasaResponse.data) {
+      const annMmPerDay = nasaResponse.data.properties?.parameter?.PRECTOTCORR?.ANN;
+      if (annMmPerDay) {
+        // Kaggle ML dataset expects seasonal rainfall (approx 3 months). 
+        // We multiply mm/day by 90 days to scale it to the model's 50-300mm range.
+        seasonalRainfall = Math.round(annMmPerDay * 90);
+      }
+    }
+
     return {
       temperature: current.temperature_2m,
       humidity: current.relative_humidity_2m,
-      rainfall: current.precipitation,
+      rainfall: seasonalRainfall,
     };
   } catch (error) {
-    console.error("Failed to fetch weather:", error);
+    console.error("Failed to fetch weather/climate data:", error);
     throw error;
   }
 };
@@ -43,7 +60,7 @@ export const fetchWeather = async (lat: number, lon: number) => {
 // Fetch soil data from ISRIC with a strict timeout and mock fallback
 export const fetchSoilData = async (lat: number, lon: number) => {
   // Typical Karnataka soil values as mock fallback
-  const mockSoil = { N: 90, P: 42, K: 43, ph: 6.5 };
+  const mockSoil = { N: 0, P: 0, K: 0, ph: 6.5 };
   
   try {
     // Attempting a pseudo-call to ISRIC. In reality, ISRIC REST API requires specific query structures.

@@ -19,15 +19,48 @@
   --color-accent-400: #facc15;
   --color-accent-500: #eab308;
   --color-accent-600: #ca8a04;
+  --color-accent-700: #a16207;
+  --color-accent-800: #854d0e;
+  --color-accent-900: #713f12;
   
   --color-earth-50: #fdf8f6;
   --color-earth-100: #f2e8e5;
+  --color-earth-200: #eaddd7;
+  --color-earth-300: #e0cec7;
+  --color-earth-400: #d2bab0;
+  --color-earth-500: #a18072;
+  --color-earth-600: #977669;
+  --color-earth-700: #846358;
   --color-earth-800: #574f4d;
   --color-earth-900: #292524;
+
+  --animate-fade-in-up: fade-in-up 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-float: float 6s ease-in-out infinite;
+  
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+  }
+
+  @keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
 }
 
 @layer base {
   body {
-    @apply bg-earth-50 text-earth-900 antialiased font-sans;
+    @apply text-earth-900 antialiased font-sans;
+    background: linear-gradient(-45deg, var(--color-primary-50), var(--color-primary-100), var(--color-accent-50), var(--color-earth-50));
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+    min-height: 100vh;
   }
 }

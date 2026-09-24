@@ -21,6 +21,7 @@ interface Soil {
 
 interface MLResults {
   recommended_crop?: string;
+  all_recommended?: string[];
   disease_detected?: string;
   disease_confidence?: string;
   satellite_ndvi?: number;

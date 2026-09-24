@@ -3,6 +3,7 @@ import { useAppStore } from '../store/useAppStore.ts';
 import { api } from '../lib/api.ts';
 import { supabase } from '../lib/supabase.ts';
 import { Stethoscope, UploadCloud, Camera, Loader2, AlertCircle, X } from 'lucide-react';
+import styles from '../styles/DiseasePage.module.css';
 
 const DiseasePage = () => {
   const { user, updateMLResults } = useAppStore();
@@ -119,55 +120,55 @@ const DiseasePage = () => {
     const parts = text.split(/(\*\*.*?\*\*)/g);
     return parts.map((part, i) => 
       part.startsWith('**') && part.endsWith('**') ? 
-        <strong key={i} className="text-primary-800">{part.slice(2, -2)}</strong> : 
+        <strong key={i} className={styles.strongText}>{part.slice(2, -2)}</strong> : 
         part
     );
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <header className="mb-6">
-        <h1 className="text-3xl font-bold text-primary-900 flex items-center gap-2">
-          <Stethoscope className="text-red-500" /> Disease Check
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>
+          <Stethoscope className={styles.titleIcon} /> Disease Check
         </h1>
-        <p className="text-earth-800 mt-2">Upload a photo of a sick plant leaf for instant diagnosis and treatment advice.</p>
+        <p className={styles.subtitle}>Upload a photo of a sick plant leaf for instant diagnosis and treatment advice.</p>
       </header>
 
       {error && (
-        <div className="bg-red-50 text-red-700 p-4 rounded-xl flex gap-2 items-center">
+        <div className={styles.errorBox}>
           <AlertCircle size={20} /> {error}
         </div>
       )}
 
-      <div className="bg-white p-6 rounded-2xl shadow-sm border border-earth-100">
+      <div className={styles.mainSection}>
         {!isCameraActive ? (
-          <div className="flex flex-col gap-6">
+          <div className={styles.uploadContainer}>
             {!previewUrl ? (
-              <div className="border-2 border-dashed border-primary-300 rounded-2xl p-12 flex flex-col items-center justify-center text-center bg-primary-50">
-                <UploadCloud size={48} className="text-primary-500 mb-4" />
-                <h3 className="text-lg font-medium text-primary-900 mb-2">Upload an Image</h3>
-                <p className="text-sm text-earth-800 mb-6">Drag and drop or select a file from your device.</p>
+              <div className={styles.dropzone}>
+                <UploadCloud size={48} className={styles.dropzoneIcon} />
+                <h3 className={styles.dropzoneTitle}>Upload an Image</h3>
+                <p className={styles.dropzoneSubtitle}>Drag and drop or select a file from your device.</p>
                 
-                <div className="flex flex-col sm:flex-row gap-4 w-full justify-center">
-                  <label className="cursor-pointer bg-primary-600 hover:bg-primary-700 text-white font-medium py-3 px-6 rounded-xl transition-colors text-center shadow-sm">
+                <div className={styles.actionButtons}>
+                  <label className={styles.selectFileBtn}>
                     Select File
                     <input type="file" className="hidden" accept="image/*" onChange={handleFileChange} />
                   </label>
                   <button 
                     onClick={startCamera}
-                    className="bg-white border border-primary-200 hover:bg-earth-50 text-primary-800 font-medium py-3 px-6 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-sm"
+                    className={styles.cameraBtn}
                   >
                     <Camera size={20} /> Use Camera
                   </button>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center">
-                <div className="relative">
-                  <img src={previewUrl} alt="Preview" className="max-h-96 rounded-xl shadow-md border border-earth-100 object-contain" />
+              <div className={styles.previewContainer}>
+                <div className={styles.previewWrapper}>
+                  <img src={previewUrl} alt="Preview" className={styles.previewImage} />
                   <button 
                     onClick={() => { setPreviewUrl(null); setSelectedFile(null); setResult(null); }}
-                    className="absolute -top-3 -right-3 bg-red-500 text-white p-1 rounded-full shadow-lg hover:bg-red-600"
+                    className={styles.closeBtn}
                   >
                     <X size={20} />
                   </button>
@@ -177,7 +178,7 @@ const DiseasePage = () => {
                   <button 
                     onClick={handleAnalyze}
                     disabled={analyzing}
-                    className="mt-6 w-full sm:w-auto bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-12 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-md"
+                    className={styles.analyzeBtn}
                   >
                     {analyzing ? <Loader2 className="animate-spin" size={24} /> : 'Analyze Image'}
                   </button>
@@ -186,21 +187,21 @@ const DiseasePage = () => {
             )}
           </div>
         ) : (
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative w-full max-w-lg bg-black rounded-xl overflow-hidden shadow-lg">
-              <video ref={videoRef} autoPlay playsInline className="w-full h-auto" />
+          <div className={styles.cameraContainer}>
+            <div className={styles.videoWrapper}>
+              <video ref={videoRef} autoPlay playsInline className={styles.videoElement} />
               <canvas ref={canvasRef} className="hidden" />
             </div>
-            <div className="flex gap-4">
+            <div className={styles.cameraActions}>
               <button 
                 onClick={capturePhoto}
-                className="bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 px-6 rounded-xl transition-colors shadow-md"
+                className={styles.captureBtn}
               >
                 Capture Photo
               </button>
               <button 
                 onClick={stopCamera}
-                className="bg-earth-200 hover:bg-earth-300 text-earth-900 font-bold py-3 px-6 rounded-xl transition-colors"
+                className={styles.cancelBtn}
               >
                 Cancel
               </button>
@@ -210,24 +211,24 @@ const DiseasePage = () => {
       </div>
 
       {result && (
-        <div className="bg-accent-50 border border-accent-200 rounded-2xl overflow-hidden shadow-sm animate-in fade-in slide-in-from-bottom-4">
-          <div className="bg-accent-100 px-6 py-4 border-b border-accent-200 flex justify-between items-center">
-            <h2 className="text-xl font-bold text-primary-900 capitalize">
+        <div className={styles.resultContainer}>
+          <div className={styles.resultHeader}>
+            <h2 className={styles.resultTitle}>
               {result.disease.replace(/_/g, ' ')}
             </h2>
             {result.confidence && (
-              <span className="bg-white text-primary-800 text-sm font-bold px-3 py-1 rounded-full shadow-sm">
+              <span className={styles.confidenceBadge}>
                 {(result.confidence * 100).toFixed(0)}% Match
               </span>
             )}
           </div>
-          <div className="p-6">
-            <h3 className="font-semibold text-earth-900 mb-2">Recommended Action Plan:</h3>
-            <div className="text-earth-800 leading-relaxed bg-white p-4 rounded-xl border border-accent-100">
+          <div className={styles.resultBody}>
+            <h3 className={styles.advisoryTitle}>Recommended Action Plan:</h3>
+            <div className={styles.advisoryContent}>
               {result.advisory ? formatAdvisory(result.advisory) : "Consult with a local agronomist based on this detection."}
             </div>
             {result.source && (
-              <div className="mt-4 text-xs text-earth-500 text-right">
+              <div className={styles.advisorySource}>
                 Analyzed via {result.source}
               </div>
             )}

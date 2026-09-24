@@ -1,0 +1,121 @@
+@reference "../index.css";
+
+.pageContainer {
+  @apply min-h-screen bg-earth-50 flex items-center justify-center p-4;
+}
+
+.card {
+  @apply bg-white rounded-2xl shadow-xl p-8 w-full max-w-md border border-primary-100 relative overflow-hidden;
+}
+
+.logoContainer {
+  @apply flex flex-col items-center mb-6;
+}
+
+.logoIcon {
+  @apply bg-primary-100 p-4 rounded-full mb-4;
+}
+
+.title {
+  @apply text-3xl font-bold text-primary-900;
+}
+
+.subtitle {
+  @apply text-earth-800 mt-2 text-center;
+}
+
+.demoButtonContainer {
+  @apply mb-6;
+}
+
+.primaryButton {
+  @apply w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 disabled:text-white text-white font-bold py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2;
+}
+
+.demoButton {
+  @apply w-full bg-accent-100 hover:bg-accent-200 text-accent-800 font-bold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2;
+}
+
+.googleButton {
+  @apply w-full bg-white border-2 border-earth-200 hover:bg-earth-50 text-earth-900 font-bold py-3 px-4 rounded-xl transition-colors flex items-center justify-center gap-2;
+}
+
+.dividerContainer {
+  @apply relative py-4;
+}
+
+.dividerContainerDemo {
+  @apply relative mt-8 mb-2;
+}
+
+.dividerLineWrapper {
+  @apply absolute inset-0 flex items-center;
+}
+
+.dividerLine {
+  @apply w-full border-t border-earth-200;
+}
+
+.dividerTextWrapper {
+  @apply relative flex justify-center;
+}
+
+.dividerText {
+  @apply bg-white px-3 text-sm text-earth-500 font-medium;
+}
+
+.errorBox {
+  @apply bg-red-50 text-red-600 p-3 rounded-lg mb-4 text-sm font-medium border border-red-100;
+}
+
+.viewContainerBottom {
+  @apply space-y-6;
+}
+
+.viewContainerLeft {
+  @apply space-y-4;
+}
+
+.viewContainerRight {
+  @apply space-y-4;
+}
+
+.textCenter {
+  @apply text-center;
+}
+
+.otpHeader {
+  @apply text-xl font-bold text-primary-900;
+}
+
+.otpSubheader {
+  @apply text-sm text-earth-600 mt-1;
+}
+
+.otpInputContainer {
+  @apply flex justify-between gap-2 px-4;
+}
+
+.otpInput {
+  @apply w-12 h-14 text-center text-2xl font-bold border-2 border-earth-200 rounded-xl focus:border-primary-500 focus:ring-0 focus:outline-none transition-colors;
+}
+
+.inputLabel {
+  @apply block text-sm font-medium text-earth-900 mb-1;
+}
+
+.textInput {
+  @apply w-full px-4 py-3 bg-earth-50 border border-earth-200 rounded-xl focus:ring-2 focus:ring-primary-500 focus:outline-none;
+}
+
+.buttonPrimaryMargin {
+  @apply w-full bg-primary-600 hover:bg-primary-700 disabled:bg-primary-400 disabled:text-white text-white font-bold py-3 px-4 rounded-xl transition-colors flex justify-center items-center gap-2 mt-4;
+}
+
+.footerText {
+  @apply text-center text-earth-600 mt-6;
+}
+
+.linkButton {
+  @apply text-primary-600 font-bold hover:underline;
+}

@@ -1,0 +1,101 @@
+@reference "../index.css";
+
+.pageContainer {
+  @apply max-w-4xl mx-auto h-[calc(100vh-120px)] md:h-[calc(100vh-64px)] flex flex-col space-y-4;
+}
+
+.header {
+  @apply flex justify-between items-center shrink-0;
+}
+
+.title {
+  @apply text-3xl font-bold text-primary-900 flex items-center gap-2;
+}
+
+.titleIcon {
+  @apply text-primary-600;
+}
+
+.subtitle {
+  @apply text-earth-800 mt-1;
+}
+
+.langButton {
+  @apply flex items-center gap-2 bg-earth-100 hover:bg-earth-200 text-earth-900 px-4 py-2 rounded-xl transition-colors;
+}
+
+.chatContainer {
+  @apply flex-1 bg-white border border-earth-100 rounded-2xl p-4 overflow-y-auto shadow-sm flex flex-col gap-4;
+}
+
+.msgWrapperBase {
+  @apply flex gap-3 max-w-[85%];
+}
+
+.msgWrapperUser {
+  @apply self-end flex-row-reverse;
+}
+
+.msgWrapperAssistant {
+  @apply self-start;
+}
+
+.avatarBase {
+  @apply w-8 h-8 rounded-full flex items-center justify-center shrink-0;
+}
+
+.avatarUser {
+  @apply bg-primary-600 text-white;
+}
+
+.avatarAssistant {
+  @apply bg-accent-100 text-accent-700;
+}
+
+.bubbleBase {
+  @apply p-4 rounded-2xl text-[15px];
+}
+
+.bubbleUser {
+  @apply bg-primary-600 text-white rounded-tr-sm;
+}
+
+.bubbleAssistant {
+  @apply bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm;
+}
+
+.loadingBubble {
+  @apply p-4 rounded-2xl bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm flex items-center gap-2;
+}
+
+.loadingSpinner {
+  @apply animate-spin text-primary-500;
+}
+
+.inputArea {
+  @apply flex gap-2 shrink-0;
+}
+
+.inputWrapper {
+  @apply flex-1 relative;
+}
+
+.textInput {
+  @apply w-full pl-4 pr-12 py-4 bg-white border border-earth-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 shadow-sm;
+}
+
+.micBtnBase {
+  @apply absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded-full transition-colors;
+}
+
+.micBtnListening {
+  @apply bg-red-100 text-red-600 animate-pulse;
+}
+
+.micBtnIdle {
+  @apply text-earth-500 hover:bg-earth-100 hover:text-earth-900;
+}
+
+.sendBtn {
+  @apply bg-primary-600 hover:bg-primary-700 disabled:bg-earth-200 disabled:text-earth-500 text-white p-4 rounded-2xl transition-colors shadow-sm;
+}

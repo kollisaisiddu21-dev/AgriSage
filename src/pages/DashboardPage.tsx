@@ -3,6 +3,7 @@ import { useAppStore } from '../store/useAppStore.ts';
 import { getCurrentPosition, fetchWeather } from '../lib/external.ts';
 import { supabase } from '../lib/supabase.ts';
 import { Cloud, Droplets, ThermometerSun, MapPin, Loader2, History } from 'lucide-react';
+import styles from '../styles/DashboardPage.module.css';
 
 const DashboardPage = () => {
   const { user, isDemoMode, setLocation, weather, setWeather, updateMLResults } = useAppStore();
@@ -55,71 +56,71 @@ const DashboardPage = () => {
   }, [user, weather, setLocation, setWeather, updateMLResults]);
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto">
-      <header className="flex flex-col gap-2 mb-8">
-        <h1 className="text-3xl font-bold text-primary-900">
+    <div className={styles.pageContainer}>
+      <header className={styles.header}>
+        <h1 className={styles.title}>
           {isDemoMode ? 'Welcome to AgriSage' : `Hello ${user?.user_metadata?.full_name || ''}, Welcome to AgriSage`}
         </h1>
-        <p className="text-earth-800">Here is your farm's overview for today.</p>
+        <p className={styles.subtitle}>Here is your farm's overview for today.</p>
       </header>
 
       {/* Weather Widget */}
-      <section className="bg-white p-6 rounded-2xl shadow-sm border border-earth-100">
-        <div className="flex items-center gap-2 mb-4 text-primary-800 font-semibold text-lg">
+      <section className={styles.section}>
+        <div className={styles.sectionTitle}>
           <MapPin /> Local Conditions
         </div>
 
         {loadingWeather ? (
-          <div className="flex items-center justify-center p-8">
-            <Loader2 className="animate-spin text-primary-500" size={32} />
+          <div className={styles.loaderContainer}>
+            <Loader2 className={styles.spinner} size={32} />
           </div>
         ) : weatherError ? (
-          <div className="text-red-500 bg-red-50 p-4 rounded-xl">{weatherError}</div>
+          <div className={styles.errorBox}>{weatherError}</div>
         ) : weather ? (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-earth-50 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-earth-100">
-              <ThermometerSun size={40} className="text-accent-500" />
-              <div className="text-3xl font-bold text-primary-900">{weather.temperature}°C</div>
-              <div className="text-earth-800 font-medium">Temperature</div>
+          <div className={styles.weatherGrid}>
+            <div className={styles.weatherCard}>
+              <ThermometerSun size={40} className={styles.weatherIconTemp} />
+              <div className={styles.title}>{weather.temperature}°C</div>
+              <div className={styles.weatherLabel}>Temperature</div>
             </div>
 
-            <div className="bg-earth-50 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-earth-100">
-              <Droplets size={40} className="text-blue-500" />
-              <div className="text-3xl font-bold text-primary-900">{weather.humidity}%</div>
-              <div className="text-earth-800 font-medium">Humidity</div>
+            <div className={styles.weatherCard}>
+              <Droplets size={40} className={styles.weatherIconHum} />
+              <div className={styles.title}>{weather.humidity}%</div>
+              <div className={styles.weatherLabel}>Humidity</div>
             </div>
 
-            <div className="bg-earth-50 p-6 rounded-xl flex flex-col items-center justify-center gap-2 border border-earth-100">
-              <Cloud size={40} className="text-gray-500" />
-              <div className="text-3xl font-bold text-primary-900">{weather.rainfall} mm</div>
-              <div className="text-earth-800 font-medium">Rainfall</div>
+            <div className={styles.weatherCard}>
+              <Cloud size={40} className={styles.weatherIconRain} />
+              <div className={styles.title}>{weather.rainfall} mm</div>
+              <div className={styles.weatherLabel}>Rainfall</div>
             </div>
           </div>
         ) : null}
       </section>
 
       {/* Recent History Widget */}
-      <section className="bg-white p-6 rounded-2xl shadow-sm border border-earth-100">
-        <div className="flex items-center gap-2 mb-4 text-primary-800 font-semibold text-lg">
+      <section className={styles.section}>
+        <div className={styles.sectionTitle}>
           <History /> Recent Activity
         </div>
 
         {history.length > 0 ? (
-          <div className="space-y-3">
+          <div className={styles.historyList}>
             {history.map((item, i) => (
-              <div key={i} className="p-4 border border-earth-100 rounded-xl flex justify-between items-center hover:bg-earth-50 transition-colors">
+              <div key={i} className={styles.historyItem}>
                 <div>
-                  <div className="font-semibold text-primary-900">{item.type}</div>
-                  <div className="text-sm text-earth-800">{item.result}</div>
+                  <div className={styles.historyItemType}>{item.type}</div>
+                  <div className={styles.historyItemResult}>{item.result}</div>
                 </div>
-                <div className="text-xs text-earth-800">
+                <div className={styles.historyItemDate}>
                   {new Date(item.created_at).toLocaleDateString()}
                 </div>
               </div>
             ))}
           </div>
         ) : (
-          <div className="text-center p-8 bg-earth-50 rounded-xl border border-earth-100 text-earth-800">
+          <div className={styles.emptyHistory}>
             No recent activity found. Try predicting a crop or scanning a leaf!
           </div>
         )}

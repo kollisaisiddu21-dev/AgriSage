@@ -1,0 +1,93 @@
+@reference "../index.css";
+
+.pageContainer {
+  @apply max-w-5xl mx-auto space-y-6 flex flex-col h-full animate-fade-in-up;
+}
+
+.header {
+  @apply mb-2 shrink-0;
+}
+
+.title {
+  @apply text-3xl font-bold text-primary-900 flex items-center gap-2;
+}
+
+.titleIcon {
+  @apply text-primary-600;
+}
+
+.subtitle {
+  @apply text-earth-800 mt-2;
+}
+
+.errorBox {
+  @apply bg-red-50 text-red-700 p-4 rounded-xl flex gap-2 items-center shrink-0;
+}
+
+.mainSection {
+  @apply flex flex-col lg:flex-row gap-6 flex-1 min-h-[500px];
+}
+
+.mapContainer {
+  @apply bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden flex-1 relative h-96 lg:h-auto;
+}
+
+.mapElement {
+  @apply w-full h-full;
+}
+
+.analyzeBtnWrapper {
+  @apply absolute bottom-6 left-1/2 transform -translate-x-1/2 z-[400];
+}
+
+.analyzeBtn {
+  @apply bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 disabled:from-earth-300 disabled:to-earth-400 disabled:text-earth-100 text-white font-bold py-4 px-8 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2;
+}
+
+.resultContainer {
+  @apply w-full lg:w-80 bg-white/70 backdrop-blur-xl p-6 rounded-2xl shadow-xl border border-white/40 shrink-0 flex flex-col overflow-y-auto max-h-[100%] lg:max-h-[600px] transition-all duration-300;
+}
+
+.resultTitle {
+  @apply text-xl font-bold text-primary-900 mb-6 border-b border-earth-100 pb-2;
+}
+
+.resultBody {
+  @apply space-y-6;
+}
+
+.resultLabel {
+  @apply text-sm text-earth-500 mb-1;
+}
+
+.coordsValue {
+  @apply font-mono text-sm bg-white/40 backdrop-blur-sm p-2 rounded-lg border border-white/40 shadow-sm;
+}
+
+.ndviWrapper {
+  @apply flex items-end gap-2;
+}
+
+.ndviValue {
+  @apply text-4xl font-bold;
+}
+
+.ndviValueGood {
+  @apply text-primary-600;
+}
+
+.ndviValueBad {
+  @apply text-accent-500;
+}
+
+.statusWrapper {
+  @apply bg-white/40 backdrop-blur-sm p-4 rounded-xl border border-white/40 shadow-sm;
+}
+
+.statusLabel {
+  @apply text-sm font-semibold text-primary-800 mb-1;
+}
+
+.statusValue {
+  @apply text-primary-900;
+}
