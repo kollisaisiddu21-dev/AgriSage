@@ -34,6 +34,19 @@ const DashboardPage = () => {
 
     // Load history
     const loadHistory = async () => {
+      let sessionHistory: any[] = [];
+      try {
+        const sessionTests = JSON.parse(sessionStorage.getItem('session_ml_tests') || '[]');
+        sessionHistory = sessionTests.map((t: any) => ({
+          type: t.test_type === 'crop_recommendation' ? 'Crop Recommendation' : 
+                t.test_type === 'disease_detection' ? 'Disease Diagnosis' : 'NDVI Analysis',
+          result: t.test_type === 'crop_recommendation' ? `Recommended: ${t.result_data.recommended_crops?.[0]?.crop || 'Unknown'}` :
+                  t.test_type === 'disease_detection' ? `Detected: ${t.result_data.disease}` :
+                  `NDVI Score: ${t.result_data.ndvi_score}`,
+          created_at: t.created_at
+        })).reverse();
+      } catch(e) {}
+
       if (user) {
         try {
           const { data, error } = await supabase
@@ -44,11 +57,16 @@ const DashboardPage = () => {
             .limit(5);
 
           if (!error && data) {
-            setHistory(data);
+            setHistory([...sessionHistory, ...data].slice(0, 10));
+          } else {
+            setHistory(sessionHistory);
           }
         } catch (err) {
           console.warn("History table might not exist yet.");
+          setHistory(sessionHistory);
         }
+      } else {
+        setHistory(sessionHistory);
       }
     };
 

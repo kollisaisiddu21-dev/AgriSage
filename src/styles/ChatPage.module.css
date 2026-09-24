@@ -1,35 +1,57 @@
 @reference "../index.css";
 
 .pageContainer {
-  @apply max-w-4xl mx-auto h-[calc(100vh-120px)] md:h-[calc(100vh-64px)] flex flex-col space-y-4;
+  @apply flex h-[calc(100vh-120px)] md:h-[calc(100vh-64px)] w-full gap-4 max-w-7xl mx-auto;
+}
+
+/* Sidebar */
+.sidebar {
+  @apply hidden md:flex flex-col w-64 lg:w-72 bg-white rounded-2xl border border-earth-100 overflow-hidden shadow-sm shrink-0;
+}
+
+.newChatBtn {
+  @apply flex items-center justify-center gap-2 w-full py-3 bg-primary-50 hover:bg-primary-100 text-primary-700 font-medium rounded-xl transition-colors border border-primary-200;
+}
+
+.sessionList {
+  @apply flex-1 overflow-y-auto p-3 flex flex-col gap-1;
+}
+
+.sessionBtn {
+  @apply text-left px-3 py-3 text-sm text-earth-700 hover:bg-earth-50 rounded-xl transition-colors truncate w-full border border-transparent hover:border-earth-100;
+}
+
+.sessionBtnActive {
+  @apply bg-primary-50 text-primary-800 border-primary-100 font-medium;
+}
+
+/* Main Chat Area */
+.mainChat {
+  @apply flex-1 flex flex-col min-w-0 bg-white rounded-2xl border border-earth-100 overflow-hidden shadow-sm relative;
 }
 
 .header {
-  @apply flex justify-between items-center shrink-0;
+  @apply flex justify-between items-center p-4 border-b border-earth-100 shrink-0 bg-white/80 backdrop-blur-md z-10;
 }
 
 .title {
-  @apply text-3xl font-bold text-primary-900 flex items-center gap-2;
+  @apply text-xl lg:text-2xl font-bold text-primary-900 flex items-center gap-2;
 }
 
 .titleIcon {
   @apply text-primary-600;
 }
 
-.subtitle {
-  @apply text-earth-800 mt-1;
-}
-
 .langButton {
-  @apply flex items-center gap-2 bg-earth-100 hover:bg-earth-200 text-earth-900 px-4 py-2 rounded-xl transition-colors;
+  @apply flex items-center gap-2 bg-earth-100 hover:bg-earth-200 text-earth-900 px-3 py-1.5 rounded-lg text-sm transition-colors;
 }
 
-.chatContainer {
-  @apply flex-1 bg-white border border-earth-100 rounded-2xl p-4 overflow-y-auto shadow-sm flex flex-col gap-4;
+.chatScrollArea {
+  @apply flex-1 overflow-y-auto p-4 lg:p-6 flex flex-col gap-6;
 }
 
 .msgWrapperBase {
-  @apply flex gap-3 max-w-[85%];
+  @apply flex gap-4 max-w-[90%] lg:max-w-[80%];
 }
 
 .msgWrapperUser {
@@ -41,7 +63,7 @@
 }
 
 .avatarBase {
-  @apply w-8 h-8 rounded-full flex items-center justify-center shrink-0;
+  @apply w-8 h-8 lg:w-10 lg:h-10 rounded-full flex items-center justify-center shrink-0 shadow-sm;
 }
 
 .avatarUser {
@@ -53,7 +75,7 @@
 }
 
 .bubbleBase {
-  @apply p-4 rounded-2xl text-[15px];
+  @apply p-4 lg:p-5 rounded-2xl text-[15px] leading-relaxed shadow-sm;
 }
 
 .bubbleUser {
@@ -65,15 +87,15 @@
 }
 
 .loadingBubble {
-  @apply p-4 rounded-2xl bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm flex items-center gap-2;
+  @apply p-4 rounded-2xl bg-earth-50 border border-earth-100 text-earth-900 rounded-tl-sm flex items-center gap-2 shadow-sm;
 }
 
 .loadingSpinner {
   @apply animate-spin text-primary-500;
 }
 
-.inputArea {
-  @apply flex gap-2 shrink-0;
+.inputContainer {
+  @apply p-4 bg-white border-t border-earth-100 shrink-0;
 }
 
 .inputWrapper {
@@ -81,7 +103,7 @@
 }
 
 .textInput {
-  @apply w-full pl-4 pr-12 py-4 bg-white border border-earth-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 shadow-sm;
+  @apply w-full pl-4 pr-12 py-3 lg:py-4 bg-earth-50 border border-earth-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all shadow-inner;
 }
 
 .micBtnBase {
@@ -93,9 +115,10 @@
 }
 
 .micBtnIdle {
-  @apply text-earth-500 hover:bg-earth-100 hover:text-earth-900;
+  @apply text-earth-500 hover:bg-earth-200 hover:text-earth-900;
 }
 
 .sendBtn {
-  @apply bg-primary-600 hover:bg-primary-700 disabled:bg-earth-200 disabled:text-earth-500 text-white p-4 rounded-2xl transition-colors shadow-sm;
+  @apply bg-primary-600 hover:bg-primary-700 disabled:bg-earth-200 disabled:text-earth-500 text-white p-3 lg:p-4 rounded-2xl transition-colors shadow-sm h-full;
 }
+
