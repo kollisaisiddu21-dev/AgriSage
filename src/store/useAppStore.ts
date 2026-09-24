@@ -62,6 +62,7 @@ interface AppState {
   setSoil: (soil: Soil | null) => void;
   updateMLResults: (results: Partial<MLResults>) => void;
   setTestState: (pageId: string, state: any) => void;
+  resetStore: () => void;
 }
 
 import { persist } from 'zustand/middleware';
@@ -92,6 +93,15 @@ export const useAppStore = create<AppState>()(
           [pageId]: { ...(state.testStates[pageId] || {}), ...newState }
         }
       })),
+      resetStore: () => set({
+        user: null,
+        isDemoMode: false,
+        location: null,
+        weather: null,
+        soil: null,
+        mlResults: {},
+        testStates: {}
+      }),
     }),
     {
       name: 'agrisage-storage',

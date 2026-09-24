@@ -4,7 +4,7 @@ import { supabase } from '../lib/supabase.ts';
 import { Sprout, LogOut, LayoutDashboard, Satellite, Stethoscope, MessageCircle, Loader2 } from 'lucide-react';
 
 const Layout = () => {
-  const { setDemoMode, user, testStates, setUser } = useAppStore();
+  const { user, testStates } = useAppStore();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -14,9 +14,9 @@ const Layout = () => {
     // 1. Clear session storage completely
     sessionStorage.clear();
 
-    // 2. Optimistically update local state so the router immediately knows we are logged out
-    setDemoMode(false);
-    setUser(null);
+    // 2. Optimistically clear the entire global memory state
+    const { resetStore } = useAppStore.getState();
+    resetStore();
 
     // 3. Fire the backend signout in the background if the user was logged in natively
     if (user) {
