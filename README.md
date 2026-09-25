@@ -30,57 +30,47 @@ AgriSage is a modern, mobile-first Multi-Modal AI platform built to revolutioniz
 ## 🏗️ System Architecture
 
 ```mermaid
-graph TD
-    %% Users
-    User((Farmer / User))
-    
-    %% Frontend
-    subgraph Frontend [Mobile-First PWA Hosted on Vercel]
-        React[React 18 + Vite UI]
-        State[Zustand State Management]
-        React <--> State
+graph LR
+    %% Core Interaction
+    User((👨‍🌾 Farmer)) -- "Uses App" --> Frontend
+
+    %% Frontend Block
+    subgraph "Frontend (Hosted on Vercel)"
+        Frontend[React + Vite PWA]
     end
-    
-    %% Authentication & Database
-    subgraph Backend_BaaS [Supabase]
+
+    %% Database Block
+    subgraph "Backend-as-a-Service"
         Auth[Supabase Auth]
-        DB[(PostgreSQL Database)]
+        DB[(PostgreSQL)]
     end
 
-    %% API Backend
-    subgraph Backend_API [FastAPI Serverless Container on Google Cloud Run]
-        API_Router[FastAPI Router]
-        Crop_ML[Random Forest Model]
-        Disease_Vision[Vision Pipeline]
-        Earth_Engine[GEE Service]
-        Chat_RAG[RAG + LLM Engine]
-        VectorDB[(Local ChromaDB)]
+    %% API Block
+    subgraph "API Server (Google Cloud Run)"
+        API[FastAPI Backend]
+        Models[Local ML Models]
+        VectorDB[(ChromaDB)]
     end
 
-    %% External Services
-    subgraph External_Services [External APIs]
+    %% Third-Party Services
+    subgraph "External AI & Data APIs"
+        Cerebras[Cerebras Vision]
+        Groq[Groq LPU]
         GEE[Google Earth Engine]
-        Cerebras[Cerebras AI Vision API]
-        Groq[Groq LPU LLM API]
     end
 
     %% Connections
-    User <-->|HTTPS| React
-    React <-->|OAuth / JWT| Auth
-    React <-->|REST API Calls| API_Router
-    
+    Frontend -- "Login / Profiles" --> Auth
     Auth --> DB
     
-    API_Router --> Crop_ML
-    API_Router --> Disease_Vision
-    API_Router --> Earth_Engine
-    API_Router --> Chat_RAG
+    Frontend -- "REST Requests" --> API
     
-    Chat_RAG <--> VectorDB
+    API -- "Runs" --> Models
+    API -- "RAG Queries" --> VectorDB
     
-    Disease_Vision <-->|Base64 Image| Cerebras
-    Earth_Engine <-->|Coordinates| GEE
-    Chat_RAG <-->|Text Generation| Groq
+    API -- "Analyzes Leaves" --> Cerebras
+    API -- "Generates Chat" --> Groq
+    API -- "Fetches NDVI" --> GEE
 ```
 
 ## 🚀 Technology Stack
