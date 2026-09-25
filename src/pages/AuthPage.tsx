@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { supabase } from '../lib/supabase.ts';
 import { useAppStore } from '../store/useAppStore.ts';
-import { Sprout, Loader2, ArrowRight } from 'lucide-react';
+import { Loader2, ArrowRight } from 'lucide-react';
 import styles from '../styles/AuthPage.module.css';
 
 const AuthPage = () => {
@@ -184,7 +184,7 @@ const AuthPage = () => {
           >
             Enter Demo Mode (No Login)
           </button>
-          
+
           <div className={styles.dividerContainerDemo}>
             <div className={styles.dividerLineWrapper}><div className={styles.dividerLine}></div></div>
             <div className={styles.dividerTextWrapper}><span className={styles.dividerText}>or continue with an account</span></div>
