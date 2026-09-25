@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useAppStore } from '../store/useAppStore.ts';
 import { api } from '../lib/api.ts';
 import { supabase } from '../lib/supabase.ts';
@@ -38,6 +38,7 @@ const LocationMarker = ({ position, setPosition }: any) => {
 const FieldPage = () => {
   const { user, isDemoMode, location, updateMLResults, testStates, setTestState } = useAppStore();
   const pageState = testStates['field'] || {};
+  const resultRef = useRef<HTMLDivElement>(null);
 
   const position = pageState.position ? new L.LatLng(pageState.position.lat, pageState.position.lng) : (location ? new L.LatLng(location.lat, location.lon) : new L.LatLng(15.3647, 75.1240));
   const analyzing = pageState.analyzing || false;
@@ -48,6 +49,15 @@ const FieldPage = () => {
   const setAnalyzing = (val: boolean) => setTestState('field', { analyzing: val });
   const setError = (val: string | null) => setTestState('field', { error: val });
   const setResult = (val: any) => setTestState('field', { result: val });
+
+  // Auto-scroll to results on mobile
+  useEffect(() => {
+    if (!analyzing && result && resultRef.current) {
+      setTimeout(() => {
+        resultRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [analyzing, result]);
 
   // When location changes from global store, update pin
   useEffect(() => {
@@ -185,7 +195,7 @@ const FieldPage = () => {
 
         {/* Results Section */}
         {!analyzing && result && (
-          <div className={styles.resultContainer}>
+          <div className={styles.resultContainer} ref={resultRef}>
             <h2 className={styles.resultTitle}>Analysis Results</h2>
 
             <div className={styles.resultBody}>

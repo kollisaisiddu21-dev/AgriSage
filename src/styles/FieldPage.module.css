@@ -25,11 +25,11 @@
 }
 
 .mainSection {
-  @apply flex flex-col lg:flex-row gap-6 flex-1 min-h-[500px];
+  @apply flex flex-col lg:flex-row gap-6 flex-1 min-h-[350px] lg:min-h-[500px];
 }
 
 .mapContainer {
-  @apply bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden relative flex-1 min-h-[500px];
+  @apply bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden relative flex-1 min-h-[350px] lg:min-h-[500px];
 }
 
 .mapElement {
