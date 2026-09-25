@@ -77,11 +77,11 @@ const Layout = () => {
 
         {/* Mobile Bottom Bar placeholder for full mobile-first approach */}
         <div className="md:hidden fixed bottom-0 left-0 right-0 bg-primary-900 border-t border-primary-800 flex justify-around p-2 z-50">
-          <Link to="/" className={`p-3 rounded-xl transition-colors ${isActive('/') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><LayoutDashboard size={24} /></Link>
-          <Link to="/recommend" className={`p-3 rounded-xl transition-colors ${isActive('/recommend') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Sprout size={24} /></Link>
-          <Link to="/disease" className={`p-3 rounded-xl transition-colors ${isActive('/disease') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Stethoscope size={24} /></Link>
-          <Link to="/field" className={`p-3 rounded-xl transition-colors ${isActive('/field') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><Satellite size={24} /></Link>
-          <Link to="/chat" className={`p-3 rounded-xl transition-colors ${isActive('/chat') ? 'bg-primary-700 text-white' : 'hover:bg-primary-800'}`}><MessageCircle size={24} /></Link>
+          <Link to="/" className={`p-3 rounded-xl transition-colors ${isActive('/') ? 'bg-primary-700 text-white' : ''}`}><LayoutDashboard size={24} /></Link>
+          <Link to="/recommend" className={`p-3 rounded-xl transition-colors ${isActive('/recommend') ? 'bg-primary-700 text-white' : ''}`}><Sprout size={24} /></Link>
+          <Link to="/disease" className={`p-3 rounded-xl transition-colors ${isActive('/disease') ? 'bg-primary-700 text-white' : ''}`}><Stethoscope size={24} /></Link>
+          <Link to="/field" className={`p-3 rounded-xl transition-colors ${isActive('/field') ? 'bg-primary-700 text-white' : ''}`}><Satellite size={24} /></Link>
+          <Link to="/chat" className={`p-3 rounded-xl transition-colors ${isActive('/chat') ? 'bg-primary-700 text-white' : ''}`}><MessageCircle size={24} /></Link>
         </div>
       </nav>
 

@@ -41,7 +41,7 @@
 }
 
 .analyzeBtn {
-  @apply bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 disabled:from-earth-300 disabled:to-earth-400 disabled:text-earth-100 text-white font-bold py-4 px-8 rounded-full shadow-2xl transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2;
+  @apply bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 disabled:from-earth-300 disabled:to-earth-400 disabled:text-earth-100 text-white font-bold py-4 px-8 rounded-full shadow-2xl transition-all duration-300 md:hover:scale-[1.02] flex items-center gap-2;
 }
 
 .resultContainer {

@@ -128,7 +128,7 @@ const DashboardPage = () => {
               setWeatherError(null);
               loadWeather();
             }}
-            className="w-full bg-primary-600 text-white font-bold text-lg py-4 rounded-xl hover:bg-primary-700 transition-all active:scale-95 shadow-xl shadow-primary-600/20"
+            className="w-full bg-primary-600 text-white font-bold text-lg py-4 rounded-xl hover:bg-primary-700 transition-all shadow-xl shadow-primary-600/20 md:hover:scale-[1.02]"
           >
             Grant Permission
           </button>

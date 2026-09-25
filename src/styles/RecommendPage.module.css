@@ -81,7 +81,7 @@
 }
 
 .predictBtn {
-  @apply w-full bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 disabled:from-earth-200 disabled:to-earth-300 disabled:text-earth-500 text-white font-bold py-4 px-4 rounded-xl transition-all duration-300 flex justify-center text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-95;
+  @apply w-full bg-gradient-to-r from-primary-500 to-primary-700 hover:from-primary-600 hover:to-primary-800 disabled:from-earth-200 disabled:to-earth-300 disabled:text-earth-500 text-white font-bold py-4 px-4 rounded-xl transition-all duration-300 flex justify-center text-lg shadow-xl hover:shadow-2xl md:hover:scale-[1.02];
 }
 
 .resultBox {
