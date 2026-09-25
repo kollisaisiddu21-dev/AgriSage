@@ -3,8 +3,8 @@
   "name": "AgriSage AI Platform",
   "icons": [
     {
-      "src": "favicon.svg",
-      "type": "image/svg+xml",
+      "src": "favicon.png",
+      "type": "image/png",
       "sizes": "512x512"
     }
   ],

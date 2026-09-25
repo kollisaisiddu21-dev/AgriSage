@@ -57,6 +57,10 @@
 }
 
 @layer base {
+  html, body {
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
   body {
     @apply text-earth-900 antialiased font-sans;
     background: linear-gradient(-45deg, var(--color-primary-50), var(--color-primary-100), var(--color-accent-50), var(--color-earth-50));

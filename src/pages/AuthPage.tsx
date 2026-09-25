@@ -167,7 +167,7 @@ const AuthPage = () => {
 
         <div className={styles.logoContainer}>
           <div className={styles.logoIcon}>
-            <Sprout size={48} className="text-primary-600" />
+            <img src="/favicon.png" alt="AgriSage Logo" className="w-12 h-12 object-contain" />
           </div>
           <h1 className={styles.title}>AgriSage</h1>
           <p className={styles.subtitle}>Empowering farmers with intelligent crop insights.</p>

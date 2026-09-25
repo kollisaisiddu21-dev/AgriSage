@@ -33,7 +33,7 @@ const Layout = () => {
       <nav className="bg-primary-900 text-white w-full md:w-64 flex-shrink-0">
         <div className="p-4 flex items-center justify-between md:justify-center md:flex-col gap-4">
           <div className="flex items-center gap-2 font-bold text-2xl tracking-wide text-primary-200">
-            <Sprout size={32} />
+            <img src="/favicon.png" alt="AgriSage Logo" className="w-8 h-8 object-contain" />
             AgriSage
           </div>
           <button
@@ -86,7 +86,7 @@ const Layout = () => {
       </nav>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 pb-24 md:pb-8 overflow-y-auto max-h-screen">
+      <main className="flex-1 p-4 md:p-8 pb-24 md:pb-8 md:overflow-y-auto md:max-h-screen">
         <Outlet />
       </main>
     </div>
