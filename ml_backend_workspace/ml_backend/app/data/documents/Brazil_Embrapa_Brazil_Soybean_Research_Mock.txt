@@ -1,0 +1,5 @@
+Source: Embrapa
+Country: Brazil
+Title: Brazil_Soybean_Research_Mock
+
+Brazil's Embrapa indicates that soybean rust can be mitigated using specific fungicidal rotations adapted for the Cerrado biome.
