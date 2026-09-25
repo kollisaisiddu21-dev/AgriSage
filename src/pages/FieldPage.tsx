@@ -102,7 +102,7 @@ const FieldPage = () => {
           }
         }
       } else {
-        setError("Failed to analyze field. Please try again.");
+        setError(res.message || "Failed to analyze field. Please try again.");
       }
     } catch (err: any) {
       setError(err.message || "An error occurred connecting to the backend.");
