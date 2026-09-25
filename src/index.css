@@ -68,6 +68,11 @@
     animation: gradient 15s ease infinite;
     min-height: 100vh;
   }
+  button, a {
+    @apply cursor-pointer select-none active:scale-[0.96] active:opacity-70 transition-all duration-100;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
 }
 
 /* Global Custom Scrollbar Styling */
