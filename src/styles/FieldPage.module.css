@@ -29,15 +29,15 @@
 }
 
 .mapContainer {
-  @apply bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden flex-1 relative h-96 lg:h-auto;
+  @apply bg-white/70 backdrop-blur-xl rounded-2xl shadow-xl border border-white/40 overflow-hidden relative flex-1 min-h-[500px];
 }
 
 .mapElement {
-  @apply w-full h-full;
+  @apply absolute inset-0 w-full h-full z-10;
 }
 
 .analyzeBtnWrapper {
-  @apply absolute bottom-6 left-1/2 transform -translate-x-1/2 z-[400];
+  @apply absolute bottom-6 left-1/2 transform -translate-x-1/2 z-50;
 }
 
 .analyzeBtn {
