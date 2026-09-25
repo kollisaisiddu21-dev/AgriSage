@@ -27,6 +27,62 @@ AgriSage is a modern, mobile-first Multi-Modal AI platform built to revolutioniz
    - Bypasses traditional mobile web delays for instant, tactile feedback on all interactions.
    - Offline-capable UI routing and optimized viewport rendering.
 
+## 🏗️ System Architecture
+
+```mermaid
+graph TD
+    %% Users
+    User((Farmer / User))
+    
+    %% Frontend
+    subgraph Frontend [Mobile-First PWA Hosted on Vercel]
+        React[React 18 + Vite UI]
+        State[Zustand State Management]
+        React <--> State
+    end
+    
+    %% Authentication & Database
+    subgraph Backend_BaaS [Supabase]
+        Auth[Supabase Auth]
+        DB[(PostgreSQL Database)]
+    end
+
+    %% API Backend
+    subgraph Backend_API [FastAPI Serverless Container on Google Cloud Run]
+        API_Router[FastAPI Router]
+        Crop_ML[Random Forest Model]
+        Disease_Vision[Vision Pipeline]
+        Earth_Engine[GEE Service]
+        Chat_RAG[RAG + LLM Engine]
+        VectorDB[(Local ChromaDB)]
+    end
+
+    %% External Services
+    subgraph External_Services [External APIs]
+        GEE[Google Earth Engine]
+        Cerebras[Cerebras AI Vision API]
+        Groq[Groq LPU LLM API]
+    end
+
+    %% Connections
+    User <-->|HTTPS| React
+    React <-->|OAuth / JWT| Auth
+    React <-->|REST API Calls| API_Router
+    
+    Auth --> DB
+    
+    API_Router --> Crop_ML
+    API_Router --> Disease_Vision
+    API_Router --> Earth_Engine
+    API_Router --> Chat_RAG
+    
+    Chat_RAG <--> VectorDB
+    
+    Disease_Vision <-->|Base64 Image| Cerebras
+    Earth_Engine <-->|Coordinates| GEE
+    Chat_RAG <-->|Text Generation| Groq
+```
+
 ## 🚀 Technology Stack
 
 ### Frontend (Web UI)
