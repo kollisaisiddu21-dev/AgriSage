@@ -2,6 +2,10 @@
 
 AgriSage is a modern, mobile-first Multi-Modal AI platform built to revolutionize precision agriculture. Developed for **AgriN Track 4**, AgriSage combines the power of large language models, computer vision, and satellite geospatial data to provide farmers and agricultural experts with actionable, localized insights.
 
+## 🚀 Live Demo
+
+[![Live Demo](https://img.shields.io/badge/Live-Demo-blue?style=for-the-badge)](https://myagrisage.vercel.app/)
+
 ## ✨ Key Features
 
 1. **Crop Recommendation Engine**
